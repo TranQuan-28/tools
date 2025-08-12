@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Redirect...</title>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let params = new URLSearchParams(window.location.search);
+    let shopeeLink = decodeURIComponent(params.get("s"));
+    let finalLink = decodeURIComponent(params.get("d"));
+
+    // Tạo key riêng cho từng link Shopee
+    let storageKey = "clicked_shopee_" + btoa(shopeeLink);
+    let data = localStorage.getItem(storageKey);
+    let now = Date.now();
+    let sevenDays = 7 * 24 * 60 * 60 * 1000; // 7 ngày tính bằng ms
+
+    if (!data) {
+        // Chưa từng click → lưu thời gian và qua Shopee
+        localStorage.setItem(storageKey, now.toString());
+        window.location.href = shopeeLink;
+    } else {
+        let firstClickTime = parseInt(data);
+        if (now - firstClickTime > sevenDays) {
+            // Hết hạn 7 ngày → gắn lại cookie Shopee
+            localStorage.setItem(storageKey, now.toString());
+            window.location.href = shopeeLink;
+        } else {
+            // Trong 7 ngày → qua link đích
+            window.location.href = finalLink;
+        }
+    }
+});
+</script>
+</head>
+<body>
+<p>Đang chuyển hướng...</p>
+</body>
+</html>

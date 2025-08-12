@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tạo Link Shopee Redirect</title>
+<style>
+    body { font-family: Arial; max-width: 500px; margin: auto; padding: 20px; }
+    input { width: 100%; padding: 10px; margin: 8px 0; }
+    button { padding: 10px 20px; cursor: pointer; }
+    .output { margin-top: 15px; background: #f5f5f5; padding: 10px; }
+</style>
+</head>
+<body>
+<h2>🔗 Tạo Link Shopee Redirect (có reset 7 ngày)</h2>
+
+<label>Nhập link Shopee (Affiliate):</label>
+<input type="text" id="shopeeLink" placeholder="https://shope.ee/...">
+
+<label>Nhập link đích (lần sau click):</label>
+<input type="text" id="finalLink" placeholder="https://example.com">
+
+<button onclick="createLink()">Tạo link</button>
+
+<div class="output" id="result"></div>
+
+<script>
+function createLink() {
+    let shopee = encodeURIComponent(document.getElementById("shopeeLink").value.trim());
+    let final = encodeURIComponent(document.getElementById("finalLink").value.trim());
+
+    if (!shopee || !final) {
+        alert("Vui lòng nhập đầy đủ 2 link!");
+        return;
+    }
+
+    // Link redirect.html sẽ đọc tham số và xử lý
+    let shareLink = window.location.origin + "/redirect.html?s=" + shopee + "&d=" + final;
+
+    document.getElementById("result").innerHTML = `
+        ✅ Link của bạn:<br>
+        <input type="text" value="${shareLink}" style="width:100%" readonly>
+    `;
+}
+</script>
+</body>
+</html>
